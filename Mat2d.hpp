@@ -1,4 +1,3 @@
-
 #pragma once
 #include <cstddef>
 #include <stdexcept>
@@ -28,6 +27,16 @@ class Mat2d{
     size_t rows() const {return rows_;}; 
     size_t cols() const {return cols_;}; 
     void checkBounds(size_t row, size_t col);
+    
+    // Static methods
+    static Mat2d<T> zeros(std::size_t rows, std::size_t cols); 
+    static Mat2d<T> ones(std::size_t rows, std::size_t cols); 
+    static Mat2d<T> normal(float mu, float std, std::size_t rows, std::size_t cols); 
+    static Mat2d<T> uniform(float low, float high, std::size_t rows, std::size_t cols); 
+    static Mat2d<T> bernoulli(float p, std::size_t rows, std::size_t cols); 
+
+    static Mat2d<T> zeros_like(const Mat2d<T>& other);
+    static Mat2d<T> ones_like(const Mat2d<T>& other);
   };
 
 // ________________________________________________________________________ 
@@ -86,7 +95,7 @@ inline const T& Mat2d<T>::operator()(size_t i) const {return data_[i];}
 
 template <typename T>
 inline bool Mat2d<T>::operator==(const Mat2d<T>& other) const{
-  if (rows_ != other.rows_ || cols_ != other.cols_) {return false;} 
+  if (rows_ != other.rows_ || cols_ != other.cols_) {return false;}
   for (size_t i = 0; i < rows_ * cols_; i++) {
     if (data_[i] != other.data_[i]) {return false;}
   }  
@@ -102,6 +111,37 @@ inline void Mat2d<T>::checkBounds(size_t row, size_t col) {
   if ((row >= rows_) || (col >= cols_)) {
     std::out_of_range("Mat2d: Index out of bounds");
   }
+}
+
+// ____________________________________________________________________________
+// Static methods
+
+template <typename T>
+inline Mat2d<T> Mat2d<T>::zeros(std::size_t rows, std::size_t cols) {
+  Mat2d<T> result(rows, cols);
+  for (std::size_t i = 0; i < rows * cols; i++) {
+    result.data_[i] = T();
+  }
+  return result;
+}
+
+template <typename T>
+inline Mat2d<T> Mat2d<T>::ones(std::size_t rows, std::size_t cols) {
+  Mat2d<T> result(rows, cols);
+  for (std::size_t i = 0; i < rows * cols; i++) {
+    result.data_[i] = T(1);
+  }
+  return result;
+}
+
+template <typename T>
+inline Mat2d<T> Mat2d<T>::zeros_like(const Mat2d<T> &other) {
+  return Mat2d<T>::zeros(other.rows_, other.cols_);
+}
+
+template <typename T>
+inline Mat2d<T> Mat2d<T>::ones_like(const Mat2d<T> &other) {
+  return Mat2d<T>::ones(other.rows_, other.cols_);
 }
 
 // ____________________________________________________________________________
