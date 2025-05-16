@@ -6,14 +6,15 @@
 
 template <typename T>
 class Mat2d{
-  private: 
+  protected: 
     std::size_t rows_;
     std::size_t cols_;
     T* data_;
 
   public:
-    Mat2d(std::size_t rows, std::size_t cols);
+    Mat2d();
     ~Mat2d();
+    Mat2d(std::size_t rows, std::size_t cols);
     Mat2d(const Mat2d<T> &mat); 
     Mat2d(const std::vector<std::vector<T> >& vecMat);
 
@@ -23,6 +24,9 @@ class Mat2d{
     const T& operator()(size_t i) const;  // Element access (const)
     
     bool operator==(const Mat2d<T>& other) const;
+
+    Mat2d<T> operator+(const Mat2d<T>& other);
+    Mat2d<T> operator-(const Mat2d<T>& other);
 
     size_t rows() const {return rows_;}; 
     size_t cols() const {return cols_;}; 
@@ -41,6 +45,15 @@ class Mat2d{
 
 // ________________________________________________________________________ 
 // Implementations - since this is a header-only file.
+//
+// Constructors
+
+template <typename T>
+inline Mat2d<T>::Mat2d() {
+  rows_ = 0;
+  cols_ = 0;
+  data_ = nullptr;
+}
 
 template <typename T>
 inline Mat2d<T>::Mat2d(std::size_t rows, std::size_t cols) {
@@ -79,6 +92,9 @@ inline Mat2d<T>::Mat2d(const std::vector<std::vector<T> >& vecMat) {
   }
 }
 
+// ________________________________________________________________________ 
+// Overloading operators
+
 template <typename T>
 inline T& Mat2d<T>::operator()(size_t row, size_t col) {return data_[row * cols_ + col];}
 
@@ -100,6 +116,28 @@ inline bool Mat2d<T>::operator==(const Mat2d<T>& other) const{
     if (data_[i] != other.data_[i]) {return false;}
   }  
   return true;
+}
+
+template <typename T>
+inline Mat2d<T> Mat2d<T>::operator+(const Mat2d<T>& other) {
+  if (rows_ != other.rows_ || cols_ != other.cols_) {
+    throw std::invalid_argument("Mat2d shapes not align");}
+  Mat2d<T> result(rows_, cols_);
+  for (size_t i = 0; i < rows_ * cols_; i++) {
+    result.data_[i] = data_[i] + other.data_[i];
+  }
+  return result;
+}
+
+template <typename T>
+inline Mat2d<T> Mat2d<T>::operator-(const Mat2d<T>& other) {
+  if (rows_ != other.rows_ || cols_ != other.cols_) {
+    throw std::invalid_argument("Mat2d shapes not align");}
+  Mat2d<T> result(rows_, cols_);
+  for (size_t i = 0; i < rows_ * cols_; i++) {
+    result.data_[i] = data_[i] - other.data_[i];
+  }
+  return result;
 }
 
 

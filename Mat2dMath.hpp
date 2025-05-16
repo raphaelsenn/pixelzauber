@@ -11,6 +11,7 @@ Mat2d<T> add(const Mat2d<T> &mat1, const Mat2d<T> &mat2);
 template <typename T>
 Mat2d<T> sub(const Mat2d<T> &mat1, const Mat2d<T> &mat2);
 
+
 // ____________________________________________________________________________
 // Implementations
 

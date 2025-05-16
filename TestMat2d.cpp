@@ -6,6 +6,38 @@
 
 #include "./Mat2d.hpp"
 
+// ____________________________________________________________________________
+// Testing operators
+TEST(operator_add_1, Mat2d) {
+  Mat2d<int> A({{1}});
+  Mat2d<int> B({{1}});
+  Mat2d<int> A_plus_B = A + B;
+  ASSERT_EQ(A_plus_B, Mat2d<int>({{2}}));
+}
+
+TEST(operator_add_2, Mat2d) {
+  Mat2d<int> A({{1, 2}});
+  Mat2d<int> B({{3, 4}});
+  Mat2d<int> A_plus_B = A + B;
+  ASSERT_EQ(A_plus_B, Mat2d<int>({{4, 6}}));
+}
+
+TEST(operator_sub_1, Mat2d) {
+  Mat2d<int> A({{1}});
+  Mat2d<int> B({{1}});
+  Mat2d<int> A_plus_B = A - B;
+  ASSERT_EQ(A_plus_B, Mat2d<int>({{0}}));
+}
+
+TEST(operator_sub_2, Mat2d) {
+  Mat2d<int> A({{1, 2}});
+  Mat2d<int> B({{3, 4}});
+  Mat2d<int> A_plus_B = A - B;
+  ASSERT_EQ(A_plus_B, Mat2d<int>({{-2, -2}}));
+}
+
+// ____________________________________________________________________________
+// Testing static methods
 
 TEST(zeros_1, Mat2d) {
   Mat2d<int> A({{0}});

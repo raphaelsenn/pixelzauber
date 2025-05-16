@@ -8,4 +8,4 @@ clang++ -std=c++17 -o test2 TestMat2d.cpp -I/opt/homebrew/include/ -L/opt/homebr
 ./test1
 ./test2
 
-rm test1 test2 main
+rm test1 test2
