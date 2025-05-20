@@ -1,3 +1,11 @@
+// =============================================================================
+// File        : Mat2dMath.hpp
+// Author      : Raphael Senn <raphaelsenn@gmx.de>
+// License     : MIT
+// =============================================================================
+
+#pragma once
+
 #include <stdexcept>
 #include "./Mat2d.hpp"
 

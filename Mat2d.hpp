@@ -1,8 +1,21 @@
+// =============================================================================
+// File        : Mat2d.hpp
+// Author      : Raphael Senn <raphaelsenn@gmx.de>
+// Description : Header-only 2D matrix template class with basic math operations
+// License     : MIT
+// =============================================================================
+
 #pragma once
-#include <cstddef>
-#include <stdexcept>
+
 #include <tuple>
 #include <vector>
+#include <random>
+#include <type_traits>
+#include <stdexcept>
+#include <cstddef>
+#include <cmath>
+
+constexpr unsigned int SEED = 42;
 
 template <typename T>
 class Mat2d{
@@ -35,9 +48,9 @@ class Mat2d{
     // Static methods
     static Mat2d<T> zeros(std::size_t rows, std::size_t cols); 
     static Mat2d<T> ones(std::size_t rows, std::size_t cols); 
-    static Mat2d<T> normal(float mu, float std, std::size_t rows, std::size_t cols); 
-    static Mat2d<T> uniform(float low, float high, std::size_t rows, std::size_t cols); 
-    static Mat2d<T> bernoulli(float p, std::size_t rows, std::size_t cols); 
+    static Mat2d<T> normal(double mu, double std, std::size_t rows, std::size_t cols); 
+    static Mat2d<T> uniform(double low, double high, std::size_t rows, std::size_t cols); 
+    static Mat2d<T> bernoulli(double p, std::size_t rows, std::size_t cols); 
 
     static Mat2d<T> zeros_like(const Mat2d<T>& other);
     static Mat2d<T> ones_like(const Mat2d<T>& other);
@@ -182,7 +195,15 @@ inline Mat2d<T> Mat2d<T>::ones_like(const Mat2d<T> &other) {
   return Mat2d<T>::ones(other.rows_, other.cols_);
 }
 
+template <typename T>
+inline Mat2d<T> Mat2d<T>::normal(double mu, double std, std::size_t rows, std::size_t cols) {
+  Mat2d<T> result(rows, cols);
+  return result;
+}
+
+
 // ____________________________________________________________________________
 // Explicit instantiations for int and floats.
 template class Mat2d<int>;
+template class Mat2d<double>;
 template class Mat2d<float>;
