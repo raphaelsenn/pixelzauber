@@ -4,7 +4,7 @@
 
 #include <gtest/gtest.h>
 
-#include "./Mat2d.hpp"
+#include "../src/Mat2d.hpp"
 
 // ____________________________________________________________________________
 // Testing operators

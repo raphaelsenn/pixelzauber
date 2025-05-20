@@ -2,8 +2,8 @@
 
 #include <gtest/gtest.h>
 
-#include "./Mat2d.hpp"
-#include "./Mat2dMath.hpp"
+#include "../src/Mat2d.hpp"
+#include "../src/Mat2dMath.hpp"
 
 
 TEST(Mat2dMath, add){

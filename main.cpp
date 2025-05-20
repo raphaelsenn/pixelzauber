@@ -1,5 +1,5 @@
-#include "./Mat2d.hpp"
-#include "./ImgPGM.hpp"
+#include "./src/Mat2d.hpp"
+#include "./src/ImgPGM.hpp"
 #include <iostream>
 #include <cstdio>
 
