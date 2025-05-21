@@ -23,6 +23,7 @@ int main() {
   printf("Applied filter to lena.pgm\n");
   Mat2d<int> res(lena_edges);
   Mat2d<int> res2 = res.clip(0, 245);
+  
   res2.writePGM("lena_mod.pgm");
   printf("Written lena_mod.pgm\n");
   return 0;  
