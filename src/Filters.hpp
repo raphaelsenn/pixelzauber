@@ -27,7 +27,7 @@ inline Mat2d<T> applyFilter(const Mat2d<T>& src, const Mat2d<T>& kernel) {
   std::size_t H_out = src.rows() - K_H + 1;
   std::size_t W_out = src.cols() - K_W + 1;
 
-  Mat2d<T> result(H_out, W_out); 
+  Mat2d<T> result(H_out, W_out, src.maxVal()); 
 
   for (std::size_t i = 0; i < H_out; i++) {
     for (std::size_t j = 0; j < W_out; j++) {

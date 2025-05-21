@@ -15,6 +15,11 @@
 #include <cstddef>
 #include <cmath>
 
+#include <iostream>
+#include <fstream> 
+#include <string>
+#include <sstream>
+
 constexpr unsigned int SEED = 42;
 
 template <typename T>
@@ -22,14 +27,21 @@ class Mat2d{
   protected: 
     std::size_t rows_;
     std::size_t cols_;
+    int maxVal_;
     T* data_;
 
   public:
+    // ________________________________________________________________________ 
+    // Constructors 
+
     Mat2d();
     ~Mat2d();
-    Mat2d(std::size_t rows, std::size_t cols);
+    Mat2d(std::size_t rows, std::size_t cols, T maxVal = T(255));
     Mat2d(const Mat2d<T> &mat); 
-    Mat2d(const std::vector<std::vector<T> >& vecMat);
+    Mat2d(const std::vector<std::vector<T> >& vecMat, T maxVal = T(255));
+    
+    // ________________________________________________________________________ 
+    // Operators
 
     T& operator()(size_t row, size_t col);  // Element access (non-const)
     T& operator()(size_t i);  // Element access (non-const)
@@ -40,12 +52,25 @@ class Mat2d{
 
     Mat2d<T> operator+(const Mat2d<T>& other);
     Mat2d<T> operator-(const Mat2d<T>& other);
+    
+    // ________________________________________________________________________ 
+    // Methods
+
 
     size_t rows() const {return rows_;}; 
     size_t cols() const {return cols_;}; 
+    T maxVal() const {return maxVal_;}; 
     void checkBounds(size_t row, size_t col);
-    
+
+    Mat2d<T> clip(T min, T max);    
+
+    // I/O method
+    void readPGM(std::string FileName);
+    void writePGM(std::string FileName);
+
+    // ________________________________________________________________________ 
     // Static methods
+    
     static Mat2d<T> zeros(std::size_t rows, std::size_t cols); 
     static Mat2d<T> ones(std::size_t rows, std::size_t cols); 
     static Mat2d<T> normal(double mu, double std, std::size_t rows, std::size_t cols); 
@@ -65,13 +90,15 @@ template <typename T>
 inline Mat2d<T>::Mat2d() {
   rows_ = 0;
   cols_ = 0;
+  maxVal_ = 0;
   data_ = nullptr;
 }
 
 template <typename T>
-inline Mat2d<T>::Mat2d(std::size_t rows, std::size_t cols) {
+inline Mat2d<T>::Mat2d(std::size_t rows, std::size_t cols, T maxVal) {
   rows_ = rows;
   cols_ = cols;
+  maxVal_ = maxVal;
   data_ = new T[rows_ * cols_];
 }
 
@@ -84,6 +111,7 @@ template <typename T>
 inline Mat2d<T>::Mat2d(const Mat2d<T> &mat) {
   rows_ = mat.rows_;
   cols_ = mat.cols_;
+  maxVal_ = mat.maxVal_;
   data_ = new T[rows_ * cols_];
   for (size_t i=0; i < rows_ * cols_; i++) {
     data_[i] = mat.data_[i];
@@ -91,12 +119,13 @@ inline Mat2d<T>::Mat2d(const Mat2d<T> &mat) {
 }
 
 template <typename T>
-inline Mat2d<T>::Mat2d(const std::vector<std::vector<T> >& vecMat) {
+inline Mat2d<T>::Mat2d(const std::vector<std::vector<T> >& vecMat, const T maxVal) {
   if (vecMat.empty() || vecMat[0].empty()) {
     throw std::invalid_argument("Input vector is empty");
-  } 
+  }
   rows_ = vecMat.size();
   cols_ = vecMat[0].size();
+  maxVal_ = 255;
   data_ = new T[rows_ * cols_];
   for (size_t row=0; row < rows_; row++) {
     for (size_t col=0; col < cols_; col++) {
@@ -162,6 +191,55 @@ inline void Mat2d<T>::checkBounds(size_t row, size_t col) {
   if ((row >= rows_) || (col >= cols_)) {
     std::out_of_range("Mat2d: Index out of bounds");
   }
+}
+
+template <typename T>
+inline Mat2d<T> Mat2d<T>::clip(T min, T max) {
+  Mat2d<T> result(rows_, cols_, max);
+  for (std::size_t i=0; i < rows_ * cols_; i++) {
+    if (data_[i] < min) {result.data_[i] = min;}
+    else if (data_[i] > max) {result.data_[i] = max;}
+    else {result.data_[i] = data_[i];}
+  }
+  return result;
+}
+
+template <typename T>
+inline void Mat2d<T>::readPGM(std::string fileName) {
+  std::ifstream file(fileName);
+  if (!file) std::cout << "Error reading the file" << std::endl;
+  std::string line;
+  std::getline(file, line); // P2
+  if (line != "P2") std::cout << "Not PGM format" << std::endl;
+  // assuming onlye one comment starting with #
+  std::getline(file, line);
+  std::getline(file, line);
+  std::stringstream ss(line);
+  ss >> rows_ >> cols_;
+  file >> maxVal_;
+  
+  data_ = new T[rows_ * cols_];
+  for (std::size_t i = 0; i < rows_ * cols_; i++) {
+    int pixel;
+    file >> pixel;
+    data_[i] = pixel;
+  }
+  file.close();
+}
+
+template <typename T>
+inline void Mat2d<T>::writePGM(std::string fileName) {
+  std::ofstream file(fileName);
+  file << "P2\n";
+  file << rows_ << " " << cols_ << "\n";
+  file << maxVal_ << "\n";
+  for (std::size_t row = 0; row < rows_; row++) {
+    for (std::size_t col = 0; col < cols_; col++) {
+      file << data_[row * cols_ + col] << "  ";
+    }
+    file << "\n";
+  }
+  file.close();
 }
 
 // ____________________________________________________________________________
