@@ -52,7 +52,8 @@ class Mat2d{
 
     Mat2d<T> operator+(const Mat2d<T>& other);
     Mat2d<T> operator-(const Mat2d<T>& other);
-    
+    Mat2d<T> operator*(const T& scalar) const;    // Scalar mutliplication
+
     // ________________________________________________________________________ 
     // Methods
 
@@ -80,6 +81,11 @@ class Mat2d{
     static Mat2d<T> zeros_like(const Mat2d<T>& other);
     static Mat2d<T> ones_like(const Mat2d<T>& other);
   };
+
+// ________________________________________________________________________ 
+// Declerations of none member functions
+template <typename T>
+Mat2d<T> operator*(const T& scalar, const Mat2d<T>& mat);
 
 // ________________________________________________________________________ 
 // Implementations - since this is a header-only file.
@@ -182,6 +188,14 @@ inline Mat2d<T> Mat2d<T>::operator-(const Mat2d<T>& other) {
   return result;
 }
 
+template <typename T>
+inline Mat2d<T> Mat2d<T>::operator*(const T& scalar) const {
+  Mat2d<T> result(rows_, cols_, maxVal_); 
+  for (std::size_t i = 0; i < rows_ * cols_; i++) {
+    result.data_[i] = scalar * data_[i];
+  }
+  return result;
+}
 
 // ____________________________________________________________________________
 // Methods
@@ -279,9 +293,19 @@ inline Mat2d<T> Mat2d<T>::normal(double mu, double std, std::size_t rows, std::s
   return result;
 }
 
+// ____________________________________________________________________________
+// Implementations of none member functions
+template <typename T>
+inline Mat2d<T> operator*(const T& scalar, const Mat2d<T>& mat) {
+  return mat * scalar;
+}
 
 // ____________________________________________________________________________
 // Explicit instantiations for int and floats.
 template class Mat2d<int>;
 template class Mat2d<double>;
 template class Mat2d<float>;
+
+template Mat2d<int> operator*(const int& scalar, const Mat2d<int>& mat);
+template Mat2d<double> operator*(const double& scalar, const Mat2d<double>& mat);
+template Mat2d<float> operator*(const float& scalar, const Mat2d<float>& mat);

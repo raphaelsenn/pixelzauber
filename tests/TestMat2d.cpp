@@ -41,6 +41,20 @@ TEST(Mat2d, operator_sub_2) {
   ASSERT_EQ(y, y_hat);
 }
 
+TEST(Mat2d, operator_scal_mul_1) {
+  Mat2d<int> a({{1}});
+  Mat2d<int> y = Mat2d<int>({{100}});
+  Mat2d<int> y_hat = a * 100;
+  ASSERT_EQ(y, y_hat);
+}
+
+TEST(Mat2d, operator_scal_mul_2) {
+  Mat2d<int> a({{1}});
+  Mat2d<int> y = Mat2d<int>({{100}});
+  Mat2d<int> y_hat = 100 * a;
+  ASSERT_EQ(y, y_hat);
+}
+
 // ____________________________________________________________________________
 // Testing static methods
 

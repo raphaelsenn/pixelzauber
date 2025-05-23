@@ -26,6 +26,18 @@ int main() {
   
   res2.writePGM("lena_mod.pgm");
   printf("Written lena_mod.pgm\n");
+  
+  
+  printf("Reading lena.pgm as double\n");
+  
+  Mat2d<double> img3;
+  img3.readPGM("lena.pgm"); 
+  Mat2d<double> kernel2 = (1.0/9.0) * Mat2d<double>::ones(3, 3);
+  Mat2d<double> lena_blur = applyFilter(img3, kernel2);
+  lena_blur.clip(0, lena_blur.maxVal());
+  lena_blur.writePGM("lena_blur.pgm");
   return 0;  
+
+
 
 }
