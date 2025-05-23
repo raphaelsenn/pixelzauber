@@ -46,17 +46,17 @@ The difference of two images can be used to detect moving objects in a static sc
 
 #### Detecting Moving Objects in a static Scene
 
-<div style="display: flex; justify-content: center; gap: 1px; text-align: center;">
+<div style="display: flex; justify-content: center; gap: 30px; text-align: center;">
   <figure>
-    <img src="./res/motion01.png" width="400">
+    <img src="./res/motion01.png" width="200">
     <figcaption>Image 1</figcaption>
   </figure>
   <figure>
-    <img src="./res/motion02.png" width="400">
+    <img src="./res/motion02.png" width="200">
     <figcaption>Image 2</figcaption>
   </figure>
   <figure>
-    <img src="./res/motion01_diff_motion02.png" width="400">
+    <img src="./res/motion01_diff_motion02.png" width="200">
     <figcaption>Difference |Image1 - Image2|</figcaption>
   </figure>
 </div>
