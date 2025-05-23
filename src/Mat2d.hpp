@@ -43,6 +43,7 @@ class Mat2d{
     // ________________________________________________________________________ 
     // Operators
 
+    Mat2d<T>& operator=(const Mat2d<T>& other);     // Copy assignment operator
     T& operator()(size_t row, size_t col);  // Element access (non-const)
     T& operator()(size_t i);  // Element access (non-const)
     const T& operator()(size_t row, size_t col) const;  // Element access (const)
@@ -142,6 +143,20 @@ inline Mat2d<T>::Mat2d(const std::vector<std::vector<T> >& vecMat, const T maxVa
 
 // ________________________________________________________________________ 
 // Overloading operators
+
+template <typename T> 
+inline Mat2d<T>& Mat2d<T>::operator=(const Mat2d<T>& other) {
+  if (this == &other) {return *this;} 
+  delete[] data_;                 // deleting memory
+  rows_ = other.rows_; 
+  cols_ = other.cols_;
+  maxVal_ = other.maxVal_; 
+  data_ = new T[rows_ * cols_];   // allocating new memory
+  for (size_t i=0; i < rows_ * cols_; i++) {
+    data_[i] = other.data_[i];
+  }
+  return *this;
+}
 
 template <typename T>
 inline T& Mat2d<T>::operator()(size_t row, size_t col) {return data_[row * cols_ + col];}
@@ -249,7 +264,7 @@ inline void Mat2d<T>::writePGM(std::string fileName) {
   file << maxVal_ << "\n";
   for (std::size_t row = 0; row < rows_; row++) {
     for (std::size_t col = 0; col < cols_; col++) {
-      file << data_[row * cols_ + col] << "  ";
+      file << int (data_[row * cols_ + col]) << "  ";
     }
     file << "\n";
   }
