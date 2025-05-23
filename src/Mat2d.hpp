@@ -58,7 +58,6 @@ class Mat2d{
     // ________________________________________________________________________ 
     // Methods
 
-
     size_t rows() const {return rows_;}; 
     size_t cols() const {return cols_;}; 
     T maxVal() const {return maxVal_;}; 
@@ -69,6 +68,7 @@ class Mat2d{
     // I/O method
     void readPGM(std::string FileName);
     void writePGM(std::string FileName);
+    void print();
 
     // ________________________________________________________________________ 
     // Static methods
@@ -269,6 +269,19 @@ inline void Mat2d<T>::writePGM(std::string fileName) {
     file << "\n";
   }
   file.close();
+}
+
+template <typename T>
+void Mat2d<T>::print() {
+  std::cout << "P2" << std::endl;
+  std::cout << rows_ << cols_ << std::endl;
+  std::cout << maxVal_ << std::endl;
+  for (std::size_t row = 0; row < rows_; row++) {
+    for (std::size_t col = 0; col < cols_; col++) {
+      std::cout << data_[row * cols_ + col] << " ";
+    }
+    std::cout << "\n";
+  }
 }
 
 // ____________________________________________________________________________

@@ -14,13 +14,14 @@ def convert_p5_to_p2(input_path, output_path):
     # Write ASCII (P2) PGM
     with open(output_path, 'w') as f:
         f.write('P2\n')
-        f.write(f'{width} {height}\n')
+        f.write('# This is a comment!\n')
+        f.write(f'{width}  {height}\n')
         f.write(f'{maxval}\n')
 
         for i in range(height):
             row = [str(pixels[i * width + j]) for j in range(width)]
-            f.write(' '.join(row) + '\n')
+            f.write('  '.join(row) + '\n ')
 
 # Example usage
-convert_p5_to_p2('motion05.512.pgm', 'motion05.512.ascii.pgm')
-convert_p5_to_p2('motion06.512.pgm', 'motion06.512.ascii.pgm')
+convert_p5_to_p2('motion05.512.pgm', 'pgm/motion05.pgm')
+convert_p5_to_p2('motion06.512.pgm', 'pgm/motion06.pgm')

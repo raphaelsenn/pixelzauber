@@ -6,7 +6,8 @@
 #include <cstdio>
 #include <string>
 
-int main() {
+
+void lena_examples() {
   // loading lena.pgm 
   Mat2d<int> lena;
   // lena.readPGM("./pgm_files/motion05.512.ascii.pgm");
@@ -37,5 +38,21 @@ int main() {
   Mat2d<double> lena_double_mod = applyFilter(lena_double, kernel_double).clip(0, lena_double.maxVal());
   lena_double_mod.writePGM("lena_box_blur.pgm");
   printf("Wrote lena_box_blur.pgm\n");
+
+}
+
+int main() {
+  // lena_examples();
+  Mat2d<int> frame_1;
+  Mat2d<int> frame_2;
+  frame_1.readPGM("./pgm/motion05.pgm");
+  frame_2.readPGM("./pgm/motion06.pgm");
+  frame_1.print(); 
+  frame_1.writePGM("test.pgm");
+  Mat2d<int> diff = (frame_1 - frame_2).clip(0, frame_1.maxVal());
+  diff.writePGM("motion_difference.pgm"); 
   return 0;  
+
+
+
 }
