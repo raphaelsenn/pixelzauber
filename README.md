@@ -45,19 +45,17 @@ $$
 The difference of two images can be used to detect moving objects in a static scene.
 
 #### Detecting Moving Objects in a static Scene
+Left: Image I1, Middle: Image I2, Right: Absolute difference |I1 − I2| between Image I1 and Image I2
 
 <div style="display: flex; justify-content: center; gap: 30px; text-align: center;">
   <figure>
     <img src="./res/motion01.png" width="200">
-    <figcaption>Image 1</figcaption>
   </figure>
   <figure>
     <img src="./res/motion02.png" width="200">
-    <figcaption>Image 2</figcaption>
   </figure>
   <figure>
     <img src="./res/motion01_diff_motion02.png" width="200">
-    <figcaption>Difference |Image1 - Image2|</figcaption>
   </figure>
 </div>
 
