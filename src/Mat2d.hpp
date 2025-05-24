@@ -20,7 +20,10 @@
 #include <string>
 #include <sstream>
 
-constexpr unsigned int SEED = 42;
+#define SEED 42
+#define PI 3.14159265359
+#define e  2.71828182845
+#define eps 1e-8
 
 template <typename T>
 class Mat2d{
@@ -317,7 +320,14 @@ inline Mat2d<T> Mat2d<T>::ones_like(const Mat2d<T> &other) {
 
 template <typename T>
 inline Mat2d<T> Mat2d<T>::normal(double mu, double std, std::size_t rows, std::size_t cols) {
+  // Creating synthetic normal distributed random numbers.
   Mat2d<T> result(rows, cols);
+  std::random_device rd;  
+  std::mt19937 gen(rd());
+  std::normal_distribution distribution(mu, std);
+  for (std::size_t i = 0; i < rows * cols; i++) {
+    result(i) = static_cast<T> (distribution(gen));
+  }
   return result;
 }
 

@@ -41,18 +41,26 @@ void lena_examples() {
 
 }
 
-int main() {
-  // lena_examples();
+void difference_example() {
   Mat2d<int> frame_1;
   Mat2d<int> frame_2;
   frame_1.readPGM("./pgm/motion05.pgm");
   frame_2.readPGM("./pgm/motion06.pgm");
-  frame_1.print(); 
-  frame_1.writePGM("test.pgm");
   Mat2d<int> diff = (frame_1 - frame_2).clip(0, frame_1.maxVal());
-  diff.writePGM("motion_difference.pgm"); 
+  diff.writePGM("motion_difference.pgm");
+}
+
+void noise_example() {
+  Mat2d<int> lena;
+  lena.readPGM("./pgm/lena.pgm");
+  Mat2d<int> noise = Mat2d<int>::normal(0, 20, lena.rows(), lena.cols());
+  noise.print(); 
+  Mat2d<int> lena_noise = (lena + noise).clip(0, lena.maxVal());
+  lena_noise.writePGM("lena_guass_noise.pgm"); 
+}
+
+int main() {
+  Mat2d<double> lena;
+  lena.readPGM("./pgm/lena.pgm");
   return 0;  
-
-
-
 }

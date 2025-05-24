@@ -34,9 +34,17 @@ int main() {
 }
 ```
 
+## Synthetic Noise
+
+All images shown were produced as outputs of image processing algorithms implemented in this repository.
+| Noise       | Output Image                     |
+|------------|----------------------------------|
+| Original Image | ![Original Lena](./res/lena.png) |
+| Additive gaussian noise with mean = 0, standard deviation = 20 | ![Lena Gaussian Noise](./res/lena_gauss_noise.png) |
+
 ## Image Difference
 
-Let $I^{(1)}, I^{(2)} \in \mathbb{R}_{+}^{N}$ be two gray scale images. The difference of $I^{(1)}, I^{(2)}$ can be defined as:
+Let $I^{(1)}$, $I^{(2)}$ $\in \mathbb{R}^{N}_{+}$ be two gray scale images. The difference of $I^{(1)}$, $I^{(2)}$ can be defined as:
 
 $$
 I^{(1)} - I^{(2)} \coloneqq \left| I^{(1)} - I^{(2)} \right|
@@ -44,29 +52,35 @@ $$
 
 The difference of two images can be used to detect moving objects in a static scene.
 
-#### Detecting Moving Objects in a static Scene
+#### Example: Detecting Moving Objects in a static Scene
 Left: Image I1, Middle: Image I2, Right: Absolute difference |I1 − I2| between Image I1 and Image I2
 
-<div style="display: flex; justify-content: center; gap: 30px; text-align: center;">
-  <figure>
-    <img src="./res/motion01.png" width="200">
-  </figure>
-  <figure>
-    <img src="./res/motion02.png" width="200">
-  </figure>
-  <figure>
-    <img src="./res/motion01_diff_motion02.png" width="200">
-  </figure>
-</div>
+| Noise       | Output Image                     |
+|------------|----------------------------------|
+| Image I1 | ![Image I1](./res/motion01.png) |
+| Image I2 | ![Image I2](./res/motion02.png) |
+| Difference of I1 and I2| ![Image I2](./res/motion01_diff_motion02.png) |
 
-<p style="text-align: center; font-style: italic; font-size: 90%;">
-  Taken from <em>University of Southern California</em>,<br>
+<p style="text-align: left; font-style: italic; font-size: 90%;">
+  Image taken from <em>University of Southern California</em>,<br>
   "motion05.512 and motion06.512",<br>
   <a href="https://sipi.usc.edu/database/database.php?volume=sequences" target="_blank">
     https://sipi.usc.edu/database/database.php?volume=sequences
   </a>
 </p>
 
+```c++
+#include "./src/Mat2d.hpp"
+
+int main() {
+  Mat2d<int> frame_1;
+  Mat2d<int> frame_2;
+  frame_1.readPGM("./pgm/motion05.pgm");
+  frame_2.readPGM("./pgm/motion06.pgm");
+  Mat2d<int> diff = (frame_1 - frame_2).clip(0, frame_1.maxVal());
+  diff.writePGM("motion_difference.pgm");
+}
+```
 
 ## Citations
 
