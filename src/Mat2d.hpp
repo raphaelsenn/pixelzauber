@@ -41,7 +41,8 @@ class Mat2d{
     ~Mat2d();
     Mat2d(std::size_t rows, std::size_t cols, T maxVal = T(255));
     Mat2d(const Mat2d<T> &mat); 
-    Mat2d(const std::vector<std::vector<T> >& vecMat, T maxVal = T(255));
+    Mat2d(const std::vector<T>& vec, std::size_t rows, std::size_t cols, T maxVal = T(255)); // 1D std::vector
+    Mat2d(const std::vector<std::vector<T> >& vecMat, T maxVal = T(255)); // 2D std::vector
     
     // ________________________________________________________________________ 
     // Operators
@@ -125,6 +126,17 @@ inline Mat2d<T>::Mat2d(const Mat2d<T> &mat) {
   data_ = new T[rows_ * cols_];
   for (size_t i=0; i < rows_ * cols_; i++) {
     data_[i] = mat.data_[i];
+  }
+}
+
+template <typename T>
+inline Mat2d<T>::Mat2d(const std::vector<T>& vec, std::size_t rows, std::size_t cols, T maxVal) {
+  cols_ = cols;
+  rows_ = rows;
+  maxVal_ = maxVal;
+  data_ = new T[rows_ * cols_];
+  for (size_t i=0; i < rows_ * cols_; i++) {
+      data_[i] = vec[i];
   }
 }
 

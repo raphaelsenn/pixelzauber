@@ -1,6 +1,7 @@
 #include "./src/Mat2d.hpp"
 // #include "./src/ImgPGM.hpp"
 #include "./src/Filters.hpp"
+#include "./src/segmentation.hpp"
 
 #include <iostream>
 #include <cstdio>
@@ -60,7 +61,9 @@ void noise_example() {
 }
 
 int main() {
-  Mat2d<double> lena;
+  Mat2d<int> lena;
   lena.readPGM("./pgm/lena.pgm");
+  Mat2d<int> lena_threshold = thresholding(lena, 125);
+  lena_threshold.writePGM("lena_threshold.pgm");
   return 0;  
 }

@@ -42,6 +42,19 @@ All images shown were produced as outputs of image processing algorithms impleme
 | Original Image | ![Original Lena](./res/lena.png) |
 | Additive gaussian noise with mean = 0, standard deviation = 20 | ![Lena Gaussian Noise](./res/lena_gauss_noise.png) |
 
+```c++
+#include "./src/Mat2d.hpp"
+
+int main() {
+  Mat2d<int> lena;
+  lena.readPGM("./pgm/lena.pgm");
+  Mat2d<int> noise = Mat2d<int>::normal(0, 20, lena.rows(), lena.cols());
+  noise.print(); 
+  Mat2d<int> lena_noise = (lena + noise).clip(0, lena.maxVal());
+  lena_noise.writePGM("lena_gaussian_noise.pgm"); 
+}
+```
+
 ## Image Difference
 
 Let $I^{(1)}$, $I^{(2)}$ $\in \mathbb{R}^{N}_{+}$ be two gray scale images. The difference of $I^{(1)}$, $I^{(2)}$ can be defined as:
@@ -81,6 +94,30 @@ int main() {
   diff.writePGM("motion_difference.pgm");
 }
 ```
+
+## Thresholding
+Thresholding is the simplest way to segment an image by converting an intensity image into a binary image based on a threshold value.
+
+| Description       |    Image                |
+|------------|----------------------------------|
+| Original image | ![Image I1](./res/lena.png) |
+| The binary image resulting from a thresholding of the original image with threshold value of 125. | ![Image I2](./res/lena_threshold_100.png) |
+
+```c++
+#include "./src/Mat2d.hpp"
+#include "./src/Segmentation.hpp"
+
+int main() {
+  Mat2d<int> lena;
+  lena.readPGM("./pgm/lena.pgm");
+  Mat2d<int> lena_threshold = thresholding(lena, 125);
+  lena_threshold.writePGM("lena_threshold.pgm");
+  return 0;  
+}
+```
+
+
+
 
 ## Citations
 
